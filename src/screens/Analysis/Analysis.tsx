@@ -1,12 +1,38 @@
-import { View, Text } from "react-native";
 import React from "react";
-import Header from "./components/Header";
+import { ScrollView, View } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import InputElement from "../Dashboard/components/InputElement";
+import ClicksCategory from "./components/ClicksCategory";
+import CTRCategory from "./components/CTRCategory";
+import Header from "./components/Header";
+import ImpressionsCategory from "./components/ImpressionsCategory";
+import PlatformPerformance from "./components/PlatformPerformance";
+import Section from "./components/Section";
+import SpendCategory from "./components/SpendCategory";
 
 export default function Analysis() {
   return (
     <View style={styles.container}>
       <Header />
+      <View>
+        <Section />
+      </View>
+      <ScrollView style={styles.container}>
+        <InputElement
+          leftIconLib={Ionicons}
+          leftIconName="calendar-outline"
+          rightIconLib={MaterialIcons}
+          rightIconName="keyboard-double-arrow-down"
+        />
+
+        <ClicksCategory />
+        <CTRCategory />
+        <SpendCategory />
+        <ImpressionsCategory />
+        <PlatformPerformance />
+      </ScrollView>
     </View>
   );
 }
@@ -15,5 +41,6 @@ const styles = ScaledSheet.create({
   container: {
     backgroundColor: "gray",
     flex: 1,
+    paddingBottom: "20@vs",
   },
 });

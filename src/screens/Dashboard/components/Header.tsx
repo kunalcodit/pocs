@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import React from "react";
 import { openDrawer } from "@/navigators/Sidebar";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { colors } from "@/theme/Colors";
 
 export default function Header() {
   return (
@@ -13,10 +14,14 @@ export default function Header() {
         </View>
         <View style={styles.rowCenter}>
           <View style={styles.rightIcon}>
-            <Ionicons name="notifications-outline" size={24} />
+            <Ionicons
+              name="notifications-outline"
+              size={24}
+              color={colors.orange}
+            />
           </View>
           <View style={styles.rightIcon}>
-            <Ionicons name="person" size={24} />
+            <Ionicons name="person" size={24} color={colors.gray} />
           </View>
         </View>
       </View>
@@ -44,8 +49,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   rightIcon: {
-    backgroundColor: "lightgray",
+    backgroundColor: colors.iconBackground,
     padding: 8,
     borderRadius: 50,
+    marginRight: 10,
   },
 });
