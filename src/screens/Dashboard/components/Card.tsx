@@ -3,20 +3,26 @@ import React from "react";
 import { ScaledSheet } from "react-native-size-matters";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { DashboardData } from "@/types/dashboard/dashboard";
 
-export default function Card({ onPress }) {
+type CardProps = {
+  onPress: () => void;
+  data: DashboardData;
+};
+
+export default function Card({ onPress, data }: CardProps) {
   return (
     <Pressable onPress={onPress} style={styles.container}>
       <View style={styles.tabContainer}>
         <View style={styles.header}>
-          <Text style={styles.headertext}>Color Options pallete 1</Text>
+          <Text style={styles.headertext}>{data.title}</Text>
           <View style={styles.icon}>
             <Ionicons name="list" size={20} color="blue" />
           </View>
         </View>
         <Image
           source={{
-            uri: "https://images.pexels.com/photos/1308881/pexels-photo-1308881.jpeg?auto=compress&cs=tinysrgb&w=800",
+            uri: data.thumbnail?.secure_url,
           }}
           style={styles.image}
           alt="image1"
@@ -24,7 +30,7 @@ export default function Card({ onPress }) {
         <View style={styles.flexBox}>
           <AntDesign name="clockcircle" size={20} color="blue" />
           <Text> Updated: </Text>
-          <Text style={styles.captions}>Jan 20, 2024 | 05:11 AM</Text>
+          <Text style={styles.captions}>{data.formatted_updated_at}</Text>
         </View>
       </View>
     </Pressable>
@@ -50,7 +56,8 @@ const styles = ScaledSheet.create({
   headertext: {
     color: "#FF8C00",
     fontWeight: "500",
-    fontSize: "18@ms",
+    fontSize: "14@ms",
+    flex: 1,
   },
   icon: {
     backgroundColor: "white",
