@@ -7,11 +7,20 @@ export default {
 	colReverse: {
 		flexDirection: 'column-reverse',
 	},
+	colCenter: {
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 	wrap: {
 		flexWrap: 'wrap',
 	},
 	row: {
 		flexDirection: 'row',
+	},
+	rowCenter: {
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	rowReverse: {
 		flexDirection: 'row-reverse',
@@ -46,6 +55,10 @@ export default {
 	/* Sizes Layouts */
 	flex_1: {
 		flex: 1,
+	},
+	fullSize: {
+		height: '100%',
+		width: '100%',
 	},
 	fullWidth: {
 		width: '100%',

@@ -1,28 +1,21 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { Login, Record } from '@/screens';
+import { useTheme } from '@/theme';
+import { Stack } from '@/types/navigation';
+import Tab from './Tab';
 
-import { useTheme } from "@/theme";
+export default function Application() {
+	const { variant } = useTheme();
 
-import {
-  navigationRef,
-  type ApplicationStackParamList,
-} from "@/types/navigation";
-import Main from "./Sidebar";
-import Analysis from "@/screens/Analysis/Analysis";
-
-const Stack = createStackNavigator<ApplicationStackParamList>();
-
-function ApplicationNavigator() {
-  const { variant, navigationTheme } = useTheme();
-
-  return (
-    <NavigationContainer theme={navigationTheme} ref={navigationRef}>
-      <Stack.Navigator key={variant} screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Dashboard" component={Main} />
-        <Stack.Screen name="Analysis" component={Analysis} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+	return (
+		<Stack.Navigator
+			key={variant}
+			screenOptions={{
+				headerShown: false,
+			}}
+		>
+			<Stack.Screen name="Login" component={Login} />
+			<Stack.Screen name="Main" component={Tab} />
+			<Stack.Screen name="Record" component={Record} />
+		</Stack.Navigator>
+	);
 }
-
-export default ApplicationNavigator;
