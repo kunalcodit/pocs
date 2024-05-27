@@ -8,9 +8,10 @@ import ClicksCategory from './components/ClicksCategory';
 import CTRCategory from './components/CTRCategory';
 import Header from './components/Header';
 import ImpressionsCategory from './components/ImpressionsCategory';
-import PlatformPerformance from './components/PlatformPerformance';
 import Section from './components/Section';
 import SpendCategory from './components/SpendCategory';
+import ImpressionsByState from './components/ImpressionsByState';
+import ImpressionsByDevice from './components/ImpressionsByDevice';
 
 export default function Analysis() {
 	return (
@@ -30,7 +31,8 @@ export default function Analysis() {
 				<CTRCategory />
 				<SpendCategory />
 				<ImpressionsCategory />
-				<PlatformPerformance />
+				<ImpressionsByDevice />
+				<ImpressionsByState />
 			</ScrollView>
 		</View>
 	);
