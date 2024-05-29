@@ -1,9 +1,4 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { WebView } from 'react-native-webview';
-
-function ImpressionsByDevice() {
-	const chartHtml = (data: string) => `
+export const pieChartHtml = (data: string) => `
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -66,65 +61,3 @@ function ImpressionsByDevice() {
 		</body>
 	</html>
   `;
-
-	const html = chartHtml(
-		JSON.stringify([
-			{
-				name: 'Seoul',
-				population: 21500000,
-				sliceSettings: {
-					fill: '#83a7ea',
-				},
-				legendFontColor: '#7F7F7F',
-				legendFontSize: 15,
-			},
-			{
-				name: 'Toronto',
-				population: 2800000,
-				sliceSettings: {
-					fill: '#F00',
-				},
-				legendFontColor: '#7F7F7F',
-				legendFontSize: 15,
-			},
-			{
-				name: 'Beijing',
-				population: 527612,
-				sliceSettings: {
-					fill: 'red',
-				},
-				legendFontColor: '#7F7F7F',
-				legendFontSize: 15,
-			},
-			{
-				name: 'Moscow',
-				population: 11920000,
-				sliceSettings: {
-					fill: '#0000ff',
-				},
-				legendFontColor: '#7F7F7F',
-				legendFontSize: 15,
-			},
-		]),
-	);
-
-	return (
-		<View style={styles.container}>
-			<Text>Pie Chart</Text>
-			<WebView
-				originWhitelist={['*']}
-				source={{ html }}
-				style={{ height: 100 }}
-			/>
-		</View>
-	);
-}
-
-const styles = StyleSheet.create({
-	container: {
-		// flex: 1,
-		height: 200,
-	},
-});
-
-export default ImpressionsByDevice;
