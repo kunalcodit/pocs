@@ -5,14 +5,16 @@ import {
 	CollapseHeader,
 } from 'accordion-collapse-react-native';
 import React, { useState } from 'react';
-import { Image, Text, View } from 'react-native';
-import { PieChart } from 'react-native-chart-kit';
-import LineChart, {
-	LineChartData,
-} from 'react-native-chart-kit/dist/line-chart/LineChart';
+import { ActivityIndicator, Image, Text, View } from 'react-native';
 import { ScaledSheet, vs } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { chartConfig, screenWidth } from './ClicksCategory';
+import { z } from 'zod';
+import { RecordPageSchema } from '@/types/schemas/record';
+import findWidgets from '@/utils/findWidgets';
+import { useQuery } from '@tanstack/react-query';
+import getClicks from '@/services/record/getClicks';
+import AmLineChart from '../charts/AMLineChart';
+import AmPieChart from '../charts/AmPieChart';
 
 const styles = ScaledSheet.create({
 	container: {
@@ -72,50 +74,59 @@ const styles = ScaledSheet.create({
 	},
 });
 
-export default function Category() {
+type Props = {
+	data: z.infer<typeof RecordPageSchema>;
+	widgetPageID: string;
+};
+
+export default function Category(props: Props) {
+	const { data, widgetPageID } = props;
 	const [isExpanded, setisExpanded] = useState(true);
 	const titleIconName = !isExpanded ? 'chevron-up' : 'chevron-down';
-	const data: LineChartData = {
-		labels: ['January', 'February', 'March'],
-		datasets: [
-			{
-				data: [16, 15, 16],
-				// color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-				// strokeWidth: 2, // optional
-			},
-		],
-		// legend: ["Clicks Monthly Trends"], // optional
-	};
-	const deviceData = [
-		{
-			name: 'Seoul',
-			population: 21500000,
-			color: 'rgba(131, 167, 234, 1)',
-			legendFontColor: '#7F7F7F',
-			legendFontSize: 15,
-		},
-		{
-			name: 'Toronto',
-			population: 2800000,
-			color: '#F00',
-			legendFontColor: '#7F7F7F',
-			legendFontSize: 15,
-		},
-		{
-			name: 'Beijing',
-			population: 527612,
-			color: 'red',
-			legendFontColor: '#7F7F7F',
-			legendFontSize: 15,
-		},
-		{
-			name: 'Moscow',
-			population: 11920000,
-			color: 'rgb(0, 0, 255)',
-			legendFontColor: '#7F7F7F',
-			legendFontSize: 15,
-		},
-	];
+
+	const totalwidget = findWidgets(data.layouts, 'Total Impressions');
+	const trendwidget = findWidgets(data.layouts, 'Impressions Monthly Trend');
+	const sharedevicewidget = findWidgets(
+		data.layouts,
+		'Impression Share by Device',
+	);
+	const statewidget = findWidgets(data.layouts, 'Impressions by State');
+
+	const clicksRes = useQuery({
+		queryKey: ['record-impression', widgetPageID],
+		queryFn: () => getClicks(totalwidget[0], widgetPageID),
+	});
+	const trendRes = useQuery({
+		queryKey: ['record-impression-trend', widgetPageID],
+		queryFn: () => getClicks(trendwidget[0], widgetPageID),
+	});
+	const shareRes = useQuery({
+		queryKey: ['record-impression-device', widgetPageID],
+		queryFn: () => getClicks(sharedevicewidget[0], widgetPageID),
+	});
+	const stateRes = useQuery({
+		queryKey: ['record-impression-state', widgetPageID],
+		queryFn: () => getClicks(statewidget[0], widgetPageID),
+	});
+
+	if (
+		clicksRes.isLoading ||
+		clicksRes.isFetching ||
+		trendRes.isLoading ||
+		trendRes.isFetching ||
+		shareRes.isLoading ||
+		shareRes.isFetching
+	) {
+		return <ActivityIndicator color="black" />;
+	}
+
+	const chartData = trendRes.data.data.map(
+		(item: { log_date: number; ClickCount: string }) => ({
+			date: new Date(item.log_date * 1000).toISOString(),
+			ClickCount: parseInt(item.ImpressionCount, 10),
+		}),
+	);
+
 	return (
 		<View>
 			<Collapse
@@ -137,7 +148,9 @@ export default function Category() {
 						<View style={styles.card}>
 							<Text style={styles.headertext}>Total Impressions</Text>
 							<Text style={styles.subtitle}>(Jan 26,2024 - Feb 01,2024)</Text>
-							<Text style={styles.number}>904</Text>
+							<Text style={styles.number}>
+								{clicksRes.data.data[0]?.ImpressionCount}
+							</Text>
 							<Text style={styles.numberInfo}>Impressions</Text>
 						</View>
 						<View style={styles.card}>
@@ -148,14 +161,17 @@ export default function Category() {
                 }}
                 style={styles.image}
               /> */}
-							<LineChart
+							{/* <LineChart
 								data={data}
 								width={screenWidth / 2}
 								height={vs(80)}
 								chartConfig={chartConfig}
 								bezier
 								withInnerLines={false}
-							/>
+							/> */}
+							<View style={{ height: vs(70) }}>
+								<AmLineChart data={chartData} />
+							</View>
 						</View>
 					</View>
 					<View style={styles.cardContainer}>
@@ -178,14 +194,17 @@ export default function Category() {
 					<View style={styles.cardContainer}>
 						<View style={[styles.card, styles.deviceGraph]}>
 							<Text style={styles.headertext}>Impressions share by Device</Text>
-							<PieChart
+							{/* <PieChart
 								data={deviceData}
 								width={screenWidth}
 								height={vs(150)}
 								chartConfig={chartConfig}
 								accessor="population"
 								backgroundColor="transparent"
-							/>
+							/> */}
+							<View style={{ height: vs(170) }}>
+								<AmPieChart data={shareRes.data.data} />
+							</View>
 						</View>
 					</View>
 				</CollapseBody>

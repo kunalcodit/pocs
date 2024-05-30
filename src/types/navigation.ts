@@ -7,10 +7,14 @@ import {
 	createStackNavigator,
 	StackScreenProps,
 } from '@react-navigation/stack';
+import { z } from 'zod';
+import { AaDaumSchema } from './schemas/dashboard';
 
 export type ApplicationStackParamList = {
 	Main: undefined;
-	Record: undefined;
+	Record: {
+		data: z.infer<typeof AaDaumSchema>;
+	};
 	Dashboard: undefined;
 	Login: undefined;
 };
@@ -37,3 +41,5 @@ export const navigationRef =
 export type DashProps = BottomTabScreenProps<ParamListBase, 'Dashboard'>;
 
 export type LoginProps = StackScreenProps<ApplicationStackParamList, 'Login'>;
+
+export type RecordProps = StackScreenProps<ApplicationStackParamList, 'Record'>;

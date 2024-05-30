@@ -1,7 +1,9 @@
-import { View, Text, ScrollView, FlatList } from 'react-native';
-import React from 'react';
-import { ScaledSheet } from 'react-native-size-matters';
 import { colors } from '@/theme/Colors';
+import { RecordPageSchema } from '@/types/schemas/record';
+import React from 'react';
+import { FlatList, Text, View } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
+import { z } from 'zod';
 
 const tabs = [
 	{ name: 'Executive Summary' },
@@ -13,21 +15,6 @@ const tabs = [
 	{ name: 'Leads' },
 ];
 
-export default function Section() {
-	return (
-		<FlatList
-			data={tabs}
-			horizontal
-			showsHorizontalScrollIndicator={false}
-			renderItem={({ item }) => (
-				<View style={styles.container}>
-					<Text style={styles.text}>{item.name}</Text>
-				</View>
-			)}
-		/>
-	);
-}
-
 const styles = ScaledSheet.create({
 	container: {
 		justifyContent: 'center',
@@ -37,10 +24,32 @@ const styles = ScaledSheet.create({
 		borderColor: colors.gray,
 		textAlign: 'center',
 		height: '40@vs',
-		width: '100@s',
+		width: '150@s',
+		// width: '100%',
 		// flex: 1,
 	},
 	text: {
 		textAlign: 'center',
 	},
 });
+
+type Props = {
+	data: z.infer<typeof RecordPageSchema>;
+};
+
+export default function Section(props: Props) {
+	const { data } = props;
+
+	return (
+		<FlatList
+			data={Object.values(data.layouts)}
+			horizontal
+			showsHorizontalScrollIndicator={false}
+			renderItem={({ item }) => (
+				<View style={styles.container}>
+					<Text style={styles.text}>{item?.title}</Text>
+				</View>
+			)}
+		/>
+	);
+}
