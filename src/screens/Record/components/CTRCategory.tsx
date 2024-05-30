@@ -1,33 +1,58 @@
+import getClicks from '@/services/record/getClicks';
 import { colors } from '@/theme/Colors';
+import { RecordPageSchema } from '@/types/schemas/record';
+import findWidgets from '@/utils/findWidgets';
+import { useQuery } from '@tanstack/react-query';
 import {
 	Collapse,
 	CollapseBody,
 	CollapseHeader,
 } from 'accordion-collapse-react-native';
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
-import { ScaledSheet, vs } from 'react-native-size-matters';
+import { useState } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { LineChartData } from 'react-native-chart-kit/dist/line-chart/LineChart';
-import { chartConfig, screenWidth } from './ClicksCategory';
+import { z } from 'zod';
+import AmLineChart from '../charts/AMLineChart';
+import { vs } from 'react-native-size-matters';
 
-export default function Category() {
+type Props = {
+	data: z.infer<typeof RecordPageSchema>;
+	widgetPageID: string;
+};
+
+export default function Category(props: Props) {
+	const { data, widgetPageID } = props;
 	const [isExpanded, setisExpanded] = useState(true);
-	console.log(isExpanded);
 	const titleIconName = !isExpanded ? 'chevron-up' : 'chevron-down';
 
-	const data: LineChartData = {
-		labels: ['January', 'February', 'March'],
-		datasets: [
-			{
-				data: [16, 15, 17],
-				// color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-				// strokeWidth: 2, // optional
-			},
-		],
-		// legend: ["Clicks Monthly Trends"], // optional
-	};
+	const totalwidget = findWidgets(data.layouts, 'Total CTR');
+	const trendwidget = findWidgets(data.layouts, 'CTR Monthly Trend');
+
+	const clicksRes = useQuery({
+		queryKey: ['record-ctr', widgetPageID],
+		queryFn: () => getClicks(totalwidget[0], widgetPageID),
+	});
+	const trendRes = useQuery({
+		queryKey: ['record-ctr-trend', widgetPageID],
+		queryFn: () => getClicks(trendwidget[0], widgetPageID),
+	});
+
+	if (
+		clicksRes.isLoading ||
+		clicksRes.isFetching ||
+		trendRes.isLoading ||
+		trendRes.isFetching
+	) {
+		return <ActivityIndicator color="black" />;
+	}
+
+	const chartData = trendRes.data.data.map(
+		(item: { log_date: number; ClickCount: string }) => ({
+			date: new Date(item.log_date * 1000).toISOString(),
+			ClickCount: parseInt(item.CtrCount, 10),
+		}),
+	);
 
 	return (
 		<View>
@@ -50,25 +75,24 @@ export default function Category() {
 						<View style={styles.card}>
 							<Text style={styles.headertext}>Total CTR</Text>
 							<Text style={styles.subtitle}>(Jan 26,2024 - Feb 01,2024)</Text>
-							<Text style={styles.number}>9.76%</Text>
+							<Text style={styles.number}>
+								{clicksRes.data.data[0]?.CtrCount}%
+							</Text>
 							<Text style={styles.numberInfo}>CTR</Text>
 						</View>
 						<View style={styles.card}>
 							{/* <Text style={styles.headertext}>CTR Monthly Trend</Text> */}
-							{/* <Image
-                source={{
-                  uri: "https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=800",
-                }}
-                style={styles.image}
-              /> */}
-							<LineChart
+							{/* <LineChart
 								data={data}
 								width={screenWidth / 2}
 								height={vs(80)}
 								chartConfig={chartConfig}
 								bezier
 								withInnerLines={false}
-							/>
+							/> */}
+							<View style={{ height: vs(70) }}>
+								<AmLineChart data={chartData} />
+							</View>
 						</View>
 					</View>
 				</CollapseBody>

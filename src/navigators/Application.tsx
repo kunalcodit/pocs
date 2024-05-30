@@ -2,6 +2,7 @@ import { Login, Record } from '@/screens';
 import { useTheme } from '@/theme';
 import { Stack } from '@/types/navigation';
 import Tab from './Tab';
+import WebVIew from '@/screens/WebView';
 
 export default function Application() {
 	const { variant } = useTheme();
@@ -13,8 +14,9 @@ export default function Application() {
 				headerShown: false,
 			}}
 		>
-			<Stack.Screen name="Login" component={Login} />
+			{/* <Stack.Screen name="WebVIew" component={WebVIew} /> */}
 			<Stack.Screen name="Main" component={Tab} />
+			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="Record" component={Record} />
 		</Stack.Navigator>
 	);

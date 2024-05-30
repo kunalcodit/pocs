@@ -1,59 +1,19 @@
+import getClicks from '@/services/record/getClicks';
 import { colors } from '@/theme/Colors';
+import { RecordPageSchema } from '@/types/schemas/record';
+import findWidgets from '@/utils/findWidgets';
+import { useQuery } from '@tanstack/react-query';
 import {
 	Collapse,
 	CollapseBody,
 	CollapseHeader,
 } from 'accordion-collapse-react-native';
 import React, { useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-export default function PlatformPerformance() {
-	const [isExpanded, setisExpanded] = useState(true);
-	const titleIconName = !isExpanded ? 'chevron-up' : 'chevron-down';
-
-	return (
-		<View>
-			<Collapse
-				style={styles.container}
-				isExpanded={isExpanded}
-				onToggle={isExpanded => setisExpanded(isExpanded)}
-			>
-				<CollapseHeader>
-					<View style={styles.textBox}>
-						<Text>Category:</Text>
-						<View style={styles.textBox}>
-							<Text style={styles.text}> Platform Performance</Text>
-							<Ionicons name={titleIconName} size={20} />
-						</View>
-					</View>
-				</CollapseHeader>
-				<CollapseBody>
-					<View style={styles.cardContainer}>
-						{/* <View style={styles.card}>
-              <Text style={styles.headertext}>dsf</Text>
-              <Text style={styles.subtitle}>(Jan 26,2024 - Feb 01,2024)</Text>
-              <Text style={styles.number}>9.76%</Text>
-              <Text style={styles.numberInfo}>CTR</Text>
-            </View> */}
-						<View style={styles.card}>
-							<Text style={styles.headertext}>
-								Platform Performance Comparison
-							</Text>
-							<Image
-								source={{
-									uri: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=800',
-								}}
-								style={styles.image}
-							/>
-						</View>
-					</View>
-				</CollapseBody>
-			</Collapse>
-		</View>
-	);
-}
+import { z } from 'zod';
+import PerformanceTable from '../charts/PerformanceTable';
 
 const styles = ScaledSheet.create({
 	container: {
@@ -106,3 +66,72 @@ const styles = ScaledSheet.create({
 		resizeMode: 'cover',
 	},
 });
+
+type Props = {
+	data: z.infer<typeof RecordPageSchema>;
+	widgetPageID: string;
+};
+
+export default function PlatformPerformance(props: Props) {
+	const { data, widgetPageID } = props;
+	const [isExpanded, setisExpanded] = useState(true);
+	const titleIconName = !isExpanded ? 'chevron-up' : 'chevron-down';
+	const pltformwidget = findWidgets(
+		data.layouts,
+		'Platform Performance Comparison',
+	);
+
+	const {
+		isLoading,
+		isFetching,
+		data: tableData,
+	} = useQuery({
+		queryKey: ['record-impression-platform', widgetPageID],
+		queryFn: () => getClicks(pltformwidget[0], widgetPageID),
+	});
+
+	if (isLoading || isFetching) {
+		return <ActivityIndicator color="black" />;
+	}
+	return (
+		<View>
+			<Collapse
+				style={styles.container}
+				isExpanded={isExpanded}
+				onToggle={isExpanded => setisExpanded(isExpanded)}
+			>
+				<CollapseHeader>
+					<View style={styles.textBox}>
+						<Text>Category:</Text>
+						<View style={styles.textBox}>
+							<Text style={styles.text}> Platform Performance</Text>
+							<Ionicons name={titleIconName} size={20} />
+						</View>
+					</View>
+				</CollapseHeader>
+				<CollapseBody>
+					<View style={styles.cardContainer}>
+						{/* <View style={styles.card}>
+              <Text style={styles.headertext}>dsf</Text>
+              <Text style={styles.subtitle}>(Jan 26,2024 - Feb 01,2024)</Text>
+              <Text style={styles.number}>9.76%</Text>
+              <Text style={styles.numberInfo}>CTR</Text>
+            </View> */}
+						<View style={styles.card}>
+							<Text style={styles.headertext}>
+								Platform Performance Comparison
+							</Text>
+							{/* <Image
+								source={{
+									uri: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=800',
+								}}
+								style={styles.image}
+							/> */}
+							<PerformanceTable data={tableData.data} />
+						</View>
+					</View>
+				</CollapseBody>
+			</Collapse>
+		</View>
+	);
+}

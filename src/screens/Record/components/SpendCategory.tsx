@@ -1,33 +1,71 @@
+import getClicks from '@/services/record/getClicks';
 import { colors } from '@/theme/Colors';
+import { RecordPageSchema } from '@/types/schemas/record';
+import findWidgets from '@/utils/findWidgets';
+import { useQuery } from '@tanstack/react-query';
 import {
 	Collapse,
 	CollapseBody,
 	CollapseHeader,
 } from 'accordion-collapse-react-native';
-import React, { useState } from 'react';
-import { Image, Text, View } from 'react-native';
-import LineChart, {
-	LineChartData,
-} from 'react-native-chart-kit/dist/line-chart/LineChart';
+import { useState } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { ScaledSheet, vs } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { chartConfig, screenWidth } from './ClicksCategory';
+import { z } from 'zod';
+import AmLineChart from '../charts/AMLineChart';
 
-export default function Category() {
+type Props = {
+	data: z.infer<typeof RecordPageSchema>;
+	widgetPageID: string;
+};
+
+export default function Category(props: Props) {
+	const { data, widgetPageID } = props;
 	const [isExpanded, setisExpanded] = useState(true);
 	const titleIconName = !isExpanded ? 'chevron-up' : 'chevron-down';
 
-	const data: LineChartData = {
-		labels: ['January', 'February', 'March'],
-		datasets: [
-			{
-				data: [20, 15, 10],
-				// color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-				// strokeWidth: 2, // optional
-			},
-		],
-		// legend: ["Clicks Monthly Trends"], // optional
-	};
+	const totalwidget = findWidgets(data.layouts, 'Total Spend');
+	const trendwidget = findWidgets(data.layouts, 'Spend Monthly Trend');
+
+	const clicksRes = useQuery({
+		queryKey: ['record-spend', widgetPageID],
+		queryFn: () => getClicks(totalwidget[0], widgetPageID),
+	});
+	const trendRes = useQuery({
+		queryKey: ['record-spend-trend', widgetPageID],
+		queryFn: () => getClicks(trendwidget[0], widgetPageID),
+	});
+
+	if (
+		clicksRes.isLoading ||
+		clicksRes.isFetching ||
+		trendRes.isLoading ||
+		trendRes.isFetching
+	) {
+		return <ActivityIndicator color="black" />;
+	}
+
+	console.log(trendRes.data.data);
+
+	const chartData = trendRes.data.data.map(
+		(item: { log_date: number; ClickCount: string }) => ({
+			date: new Date(item.log_date * 1000).toISOString(),
+			ClickCount: parseInt(item.SpendCount, 10),
+		}),
+	);
+
+	// const data: LineChartData = {
+	// 	labels: ['January', 'February', 'March'],
+	// 	datasets: [
+	// 		{
+	// 			data: [20, 15, 10],
+	// 			// color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+	// 			// strokeWidth: 2, // optional
+	// 		},
+	// 	],
+	// 	// legend: ["Clicks Monthly Trends"], // optional
+	// };
 	return (
 		<View>
 			<Collapse
@@ -60,23 +98,28 @@ export default function Category() {
                 }}
                 style={styles.image}
               /> */}
-							<LineChart
+							{/* <LineChart
 								data={data}
 								width={screenWidth}
 								height={vs(80)}
 								chartConfig={chartConfig}
 								bezier
 								withInnerLines={false}
-							/>
+							/> */}
+							<View style={{ height: vs(100) }}>
+								<AmLineChart data={chartData} />
+							</View>
 							<View style={styles.cardContainer}>
 								<View>
-									<Text style={styles.headertext}>dsf</Text>
+									<Text style={styles.headertext}>Total Spend</Text>
 									<Text style={styles.subtitle}>
 										(Jan 26,2024 - Feb 01,2024)
 									</Text>
 								</View>
 								<View>
-									<Text style={styles.number}>9.76%</Text>
+									<Text style={styles.number}>
+										{clicksRes.data.data[0]?.SpendCount}%
+									</Text>
 									<Text style={styles.numberInfo}>SPEND</Text>
 								</View>
 							</View>

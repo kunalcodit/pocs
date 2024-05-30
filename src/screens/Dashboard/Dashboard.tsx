@@ -1,7 +1,7 @@
 import fetchAllpage from '@/services/dashboard/fetchAllpage';
 import { DashProps } from '@/types/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import Card from './components/Card';
@@ -10,8 +10,6 @@ import InputElement from './components/InputElement';
 import List from './components/List';
 import RightSidebar from './components/RightSidebar';
 import Tabs from './components/Tabs';
-// import CookieManager from '@react-native-cookies/cookies';
-// import { BASE_URL } from '@/services/users/fetchAllpage';
 
 const styles = ScaledSheet.create({
 	container: {
@@ -32,25 +30,6 @@ export default function Dashboard({ navigation }: DashProps) {
 		queryFn: () => fetchAllpage(currentPage, searchval),
 	});
 
-	// useEffect(() => {
-	// 	init();
-	// }, []);
-
-	const init = async () => {
-		// const cookieString = await CookieManager.set(BASE_URL, {
-		// 	name: 'adminhtml',
-		// 	value: 'h9ku45fdrldfjhjrqn7r8v6j1m',
-		// 	domain: 'demo2019.tapclicks.com',
-		// 	path: '/',
-		// 	expires: 'Wed, 24 Apr 2024 10:06:57 GMT',
-		// 	httpOnly: true,
-		// 	secure: true,
-		// });
-		// const response = await CookieManager.get(BASE_URL);
-		// const cookiesString = Object.entries(response).map(
-		//   ([, value]) => `${value.name}=${value.value}`
-		// );
-	};
 	return (
 		<View style={styles.container}>
 			<Header handleRightSidebar={setshowRightBox} />
@@ -79,13 +58,13 @@ export default function Dashboard({ navigation }: DashProps) {
 							<Card
 								key={index}
 								data={item}
-								onPress={() => navigation.navigate('Record')}
+								onPress={() => navigation.navigate('Record', { data: item })}
 							/>
 						) : (
 							<List
 								key={index}
 								data={item}
-								onPress={() => navigation.navigate('Record')}
+								onPress={() => navigation.navigate('Record', { data: item })}
 							/>
 						)
 					}
