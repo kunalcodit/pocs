@@ -13,6 +13,7 @@ const styles = ScaledSheet.create({
 		textAlign: 'right',
 		fontSize: '8@s',
 		padding: '2@s',
+		color: 'black',
 	},
 	headerCell: {
 		fontSize: '10@s',

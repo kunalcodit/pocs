@@ -53,6 +53,9 @@ const styles = ScaledSheet.create({
 		color: 'blue',
 		fontWeight: '500',
 	},
+	captionTxt: {
+		color: 'black',
+	},
 });
 
 export default function Card({ onPress, data }: CardProps) {
@@ -75,7 +78,7 @@ export default function Card({ onPress, data }: CardProps) {
 				/>
 				<View style={styles.flexBox}>
 					<AntDesign name="clockcircle" size={20} color="blue" />
-					<Text> Updated: </Text>
+					<Text style={styles.captionTxt}> Updated: </Text>
 					<Text style={styles.captions}>{data.formatted_updated_at}</Text>
 				</View>
 			</View>

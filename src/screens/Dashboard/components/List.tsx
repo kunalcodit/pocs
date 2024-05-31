@@ -61,6 +61,9 @@ const styles = ScaledSheet.create({
 		alignSelf: 'center',
 		marginRight: '1%',
 	},
+	captionTxt: {
+		color: 'black',
+	},
 });
 
 export default function List({ data, onPress }: ListProps) {
@@ -68,7 +71,7 @@ export default function List({ data, onPress }: ListProps) {
 		<Pressable onPress={onPress} style={styles.container}>
 			<View style={styles.tabContainer}>
 				<View style={styles.flexBox}>
-					<Text> Updated: </Text>
+					<Text style={styles.captionTxt}> Updated: </Text>
 					<Text style={styles.captions}>{data.formatted_updated_at}</Text>
 				</View>
 				<View style={styles.header}>
@@ -86,7 +89,7 @@ export default function List({ data, onPress }: ListProps) {
 						alt="image1"
 					/>
 					<View style={styles.tagBox}>
-						<Text>Data Profiles:</Text>
+						<Text style={styles.captionTxt}>Data Profiles:</Text>
 						{data.reporting_profiles?.map(item => (
 							<View
 								style={{ flexDirection: 'row', flexWrap: 'wrap' }}

@@ -29,6 +29,7 @@ const styles = ScaledSheet.create({
 		fontSize: 20,
 		fontWeight: 'medium',
 		marginLeft: 10,
+		color: 'black',
 	},
 	rightIcon: {
 		backgroundColor: colors.iconBackground,
@@ -50,7 +51,7 @@ export default function Header({ handleRightSidebar }: HeaderProps) {
 		<SafeAreaView style={styles.container}>
 			<View style={styles.headerContainer}>
 				<View style={styles.rowCenter}>
-					<Ionicons name="menu" size={30} onPress={openDrawer} />
+					<Ionicons name="menu" size={30} onPress={openDrawer} color="black" />
 					<Text style={styles.headerText}>Dashboards</Text>
 				</View>
 				<View style={styles.rowCenter}>

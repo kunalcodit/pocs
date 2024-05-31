@@ -30,6 +30,7 @@ const styles = ScaledSheet.create({
 	},
 	text: {
 		textAlign: 'center',
+		color: 'black',
 	},
 });
 

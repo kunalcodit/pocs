@@ -8,7 +8,7 @@ import {
 	CollapseBody,
 	CollapseHeader,
 } from 'accordion-collapse-react-native';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -65,6 +65,9 @@ const styles = ScaledSheet.create({
 		borderRadius: 10,
 		resizeMode: 'cover',
 	},
+	captionText: {
+		color: 'black',
+	},
 });
 
 type Props = {
@@ -85,6 +88,7 @@ export default function PlatformPerformance(props: Props) {
 		isLoading,
 		isFetching,
 		data: tableData,
+		isError,
 	} = useQuery({
 		queryKey: ['record-impression-platform', widgetPageID],
 		queryFn: () => getClicks(pltformwidget[0], widgetPageID),
@@ -93,6 +97,13 @@ export default function PlatformPerformance(props: Props) {
 	if (isLoading || isFetching) {
 		return <ActivityIndicator color="black" />;
 	}
+
+	console.log({ tableData });
+
+	if (isError) {
+		return null;
+	}
+
 	return (
 		<View>
 			<Collapse
@@ -102,10 +113,10 @@ export default function PlatformPerformance(props: Props) {
 			>
 				<CollapseHeader>
 					<View style={styles.textBox}>
-						<Text>Category:</Text>
+						<Text style={styles.captionText}>Category:</Text>
 						<View style={styles.textBox}>
 							<Text style={styles.text}> Platform Performance</Text>
-							<Ionicons name={titleIconName} size={20} />
+							<Ionicons name={titleIconName} size={20} color="black" />
 						</View>
 					</View>
 				</CollapseHeader>

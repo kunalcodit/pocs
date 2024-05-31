@@ -69,7 +69,11 @@ export default function Category(props: Props) {
 		return <ActivityIndicator color="black" />;
 	}
 
-	const chartData = trendRes.data.data.map(
+	if (clicksRes.isError || trendRes.isError) {
+		return null;
+	}
+
+	const chartData = trendRes?.data?.data.map(
 		(item: { log_date: number; ClickCount: string }) => ({
 			date: new Date(item.log_date * 1000).toISOString(),
 			ClickCount: parseInt(item.ClickCount, 10),
@@ -85,10 +89,10 @@ export default function Category(props: Props) {
 			>
 				<CollapseHeader>
 					<View style={styles.textBox}>
-						<Text>Category:</Text>
+						<Text style={styles.captionText}>Category:</Text>
 						<View style={styles.textBox}>
 							<Text style={styles.text}> Clicks</Text>
-							<Ionicons name={titleIconName} size={20} />
+							<Ionicons name={titleIconName} size={20} color="black" />
 						</View>
 					</View>
 				</CollapseHeader>
@@ -163,5 +167,8 @@ const styles = ScaledSheet.create({
 		height: '45@vs',
 		borderRadius: 10,
 		resizeMode: 'cover',
+	},
+	captionText: {
+		color: 'black',
 	},
 });

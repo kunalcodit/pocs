@@ -15,6 +15,7 @@ import { useQuery } from '@tanstack/react-query';
 import getClicks from '@/services/record/getClicks';
 import AmLineChart from '../charts/AMLineChart';
 import AmPieChart from '../charts/AmPieChart';
+import AmMapChart from '../charts/AmMapChart';
 
 const styles = ScaledSheet.create({
 	container: {
@@ -72,6 +73,13 @@ const styles = ScaledSheet.create({
 	deviceGraph: {
 		// height: "300@vs",
 	},
+	captionText: {
+		color: 'black',
+	},
+	error: {
+		color: 'black',
+		textAlign: 'center',
+	},
 });
 
 type Props = {
@@ -120,7 +128,16 @@ export default function Category(props: Props) {
 		return <ActivityIndicator color="black" />;
 	}
 
-	const chartData = trendRes.data.data.map(
+	if (
+		clicksRes.isError ||
+		trendRes.isError ||
+		shareRes.isError ||
+		stateRes.isError
+	) {
+		return <Text style={styles.error}>Nothing to Show</Text>;
+	}
+
+	const chartData = trendRes?.data?.data.map(
 		(item: { log_date: number; ClickCount: string }) => ({
 			date: new Date(item.log_date * 1000).toISOString(),
 			ClickCount: parseInt(item.ImpressionCount, 10),
@@ -136,10 +153,10 @@ export default function Category(props: Props) {
 			>
 				<CollapseHeader>
 					<View style={styles.textBox}>
-						<Text>Category:</Text>
+						<Text style={styles.captionText}>Category:</Text>
 						<View style={styles.textBox}>
 							<Text style={styles.text}> Impressions</Text>
-							<Ionicons name={titleIconName} size={20} />
+							<Ionicons name={titleIconName} size={20} color="black" />
 						</View>
 					</View>
 				</CollapseHeader>
@@ -183,12 +200,15 @@ export default function Category(props: Props) {
             </View> */}
 						<View style={styles.card}>
 							<Text style={styles.headertext}>Impressions by State</Text>
-							<Image
+							{/* <Image
 								source={{
 									uri: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=800',
 								}}
 								style={[styles.image, styles.stateImage]}
-							/>
+							/> */}
+							<View style={{ height: vs(100) }}>
+								<AmMapChart data={stateRes.data.data} />
+							</View>
 						</View>
 					</View>
 					<View style={styles.cardContainer}>

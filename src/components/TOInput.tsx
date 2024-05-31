@@ -56,7 +56,11 @@ function TOInput({
 					{leftIcon.icon}
 				</TouchableOpacity>
 			)}
-			<TextInput style={styles.input} {...props} />
+			<TextInput
+				style={styles.input}
+				placeholderTextColor={colors.text}
+				{...props}
+			/>
 			{rightIcon && (
 				<TouchableOpacity
 					onPress={rightIcon.onPress}

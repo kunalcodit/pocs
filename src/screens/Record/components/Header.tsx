@@ -12,7 +12,7 @@ export default function Header() {
 			<View style={styles.headerContainer}>
 				<Pressable onPress={() => navigation.navigate('Dashboard')}>
 					<View style={styles.rowCenter}>
-						<Ionicons name="chevron-back" size={30} />
+						<Ionicons name="chevron-back" size={30} color="black" />
 						<Text style={styles.headerText}>Records</Text>
 					</View>
 				</Pressable>
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: 'medium',
 		marginLeft: 10,
+		color: 'black',
 	},
 	rightIcon: {
 		backgroundColor: colors.iconBackground,
