@@ -1,9 +1,16 @@
 import React from 'react';
-import { TextInput, TouchableOpacity, View } from 'react-native';
+import {
+	Keyboard,
+	Platform,
+	TextInput,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	View,
+} from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { IconType } from 'react-native-vector-icons/Icon'; // Assuming IconType is exported from the icons package
+import { IconType } from 'react-native-vector-icons/Icon';
 
 interface InputElementProps {
 	leftIconName?: string;
@@ -15,6 +22,7 @@ interface InputElementProps {
 	onChangeText?: (text: string) => void;
 }
 
+// eslint-disable-next-line react/function-component-definition
 const InputElement: React.FC<InputElementProps> = ({
 	leftIconName = 'list',
 	leftIconLib = Ionicons,
@@ -25,28 +33,33 @@ const InputElement: React.FC<InputElementProps> = ({
 	onChangeText,
 }) => {
 	return (
-		<View style={styles.container}>
-			<TextInput
-				placeholder="Search records ..."
-				placeholderTextColor="gray"
-				style={styles.input}
-				onChangeText={onChangeText}
-			/>
-			<TouchableOpacity style={styles.icon} onPress={onLeftIconPress}>
-				{React.createElement(leftIconLib, {
-					name: leftIconName,
-					size: 20,
-					color: 'blue',
-				})}
-			</TouchableOpacity>
-			<TouchableOpacity style={styles.icon} onPress={onRightIconPress}>
-				{React.createElement(rightIconLib, {
-					name: rightIconName,
-					size: 20,
-					color: 'blue',
-				})}
-			</TouchableOpacity>
-		</View>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<View style={styles.container}>
+				<View style={styles.searchIcon}>
+					<Ionicons name="search" size={20} style={styles.searchIconElement} />
+					<TextInput
+						placeholder="Search records ..."
+						placeholderTextColor="gray"
+						style={styles.input}
+						onChangeText={onChangeText}
+					/>
+				</View>
+				<TouchableOpacity style={styles.icon} onPress={onLeftIconPress}>
+					{React.createElement(leftIconLib, {
+						name: leftIconName,
+						size: 20,
+						color: 'blue',
+					})}
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.icon} onPress={onRightIconPress}>
+					{React.createElement(rightIconLib, {
+						name: rightIconName,
+						size: 20,
+						color: 'blue',
+					})}
+				</TouchableOpacity>
+			</View>
+		</TouchableWithoutFeedback>
 	);
 };
 
@@ -58,17 +71,26 @@ const styles = ScaledSheet.create({
 		alignItems: 'center',
 	},
 	input: {
-		backgroundColor: 'white',
-		padding: '4%',
 		fontSize: '16@s',
-		borderRadius: '8@s',
-		flex: 1,
 	},
 	icon: {
 		backgroundColor: 'white',
 		padding: 10,
 		borderRadius: 8,
 		marginLeft: 10,
+	},
+	searchIcon: {
+		backgroundColor: 'white',
+		flexDirection: 'row',
+		alignItems: 'center',
+		padding: Platform.OS === 'android' ? 0 : '4%',
+		fontSize: '16@s',
+		borderRadius: '8@s',
+		flex: 1,
+		// marginRight: 10,
+	},
+	searchIconElement: {
+		marginHorizontal: '4@s',
 	},
 });
 

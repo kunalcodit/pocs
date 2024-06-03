@@ -19,7 +19,8 @@ const styles = ScaledSheet.create({
 	headerContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		padding: '4%',
+		// padding: '4%',
+		paddingVertical: '2%',
 	},
 	rowCenter: {
 		flexDirection: 'row',

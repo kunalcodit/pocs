@@ -15,7 +15,7 @@ type Params = {
 	q?: string;
 };
 
-export default async (currentPage?: string, q?: string) => {
+export default async (currentPage?: string, q?: string, pge = '') => {
 	const params: Params = {
 		is_predefined: false,
 		is_in_library: false,
@@ -23,7 +23,7 @@ export default async (currentPage?: string, q?: string) => {
 		datatable: true,
 		summary: true,
 		sort: 'title',
-		page: '0,50',
+		page: `0,${pge}`,
 		all: true,
 	};
 	if (currentPage === 'is_client_page') {

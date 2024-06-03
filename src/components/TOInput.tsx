@@ -58,7 +58,7 @@ function TOInput({
 			)}
 			<TextInput
 				style={styles.input}
-				placeholderTextColor={colors.text}
+				placeholderTextColor={colors.placeholder}
 				{...props}
 			/>
 			{rightIcon && (

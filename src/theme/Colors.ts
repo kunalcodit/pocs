@@ -25,4 +25,5 @@ export const colors = {
 	darkGray: '#A8A8A8',
 	quartz: '#4B4B4B',
 	cultured: '#F7F7F7',
+	placeholder: '#6F6F6F',
 };

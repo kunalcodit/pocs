@@ -232,7 +232,7 @@ const strings = {
 	TASK_COMPLETED:
 		'The task has been completed, Please proceed to view details of the task using the web app.',
 	WELCOME_TO_TAPORDERS:
-		'Welcome to TapOrders! Sign in here to manage your tasks, review & comment on orders, and approve creatives.',
+		'Welcome to TapReports! Sign in to review your campaign & marketing activities, visualize KPIs, access and interact with reports.',
 	HOLD_ON_LOG_AS_SELECTED_USER:
 		' Kindly hold on for a moment as we log you in as the selected user:',
 	NO_INTERNET: `We're sorry, but it seems that you are currently not connected to

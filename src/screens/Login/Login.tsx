@@ -17,6 +17,7 @@ import {
 	Text,
 	View,
 } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import { ScaledSheet } from 'react-native-size-matters';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -55,7 +56,8 @@ const styles = ScaledSheet.create({
 		height: 55,
 	},
 	loginButton: {
-		margin: 6,
+		// margin: 6,
+		marginTop: 4,
 	},
 	loginButtonText: {
 		fontStyle: 'normal',
@@ -83,14 +85,21 @@ const styles = ScaledSheet.create({
 });
 
 export default function Login({ navigation }: LoginProps) {
-	const [email, setemail] = useState('erica.lundin@tapclicks.com');
-	const [password, setpassword] = useState('tapclicks99');
+	const [email, setemail] = useState('');
+	const [password, setpassword] = useState('');
 
 	const [showPassword, setshowPassword] = useState(false);
 	const { mutate, isPending } = useMutation({
 		mutationFn: login,
-		onSuccess: () => {
-			navigation.navigate('Main');
+		onSuccess: data => {
+			if (data.status === 'error') {
+				showMessage({
+					message: data.data[0] || 'Login Failed',
+					type: 'danger',
+				});
+			} else {
+				navigation.navigate('Main');
+			}
 		},
 	});
 
