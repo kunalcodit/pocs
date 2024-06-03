@@ -2,7 +2,7 @@ import { AaDaumSchema } from '@/types/schemas/dashboard';
 import { Image, Pressable, Text, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { z } from 'zod';
 
 type CardProps = {
@@ -56,6 +56,27 @@ const styles = ScaledSheet.create({
 	captionTxt: {
 		color: 'black',
 	},
+	imageContainer: {
+		position: 'relative',
+	},
+	starBox: {
+		position: 'absolute',
+		top: '15@ms',
+		right: '15@ms',
+		backgroundColor: 'black',
+		padding: '10@ms',
+		borderRadius: '80@ms',
+	},
+	star: {
+		// position: 'absolute',
+		// top: '15@ms',
+		// right: '15@ms',
+		// backgroundColor: 'black',
+		// padding: '10@ms',
+		// borderRadius: '80@ms',
+		color: 'white',
+		borderWidth: 1,
+	},
 });
 
 export default function Card({ onPress, data }: CardProps) {
@@ -65,17 +86,28 @@ export default function Card({ onPress, data }: CardProps) {
 				<View style={styles.header}>
 					<Text style={styles.headertext}>{data.title}</Text>
 					<View style={styles.icon}>
-						<Ionicons name="list" size={20} color="blue" />
+						{/* <Ionicons name="list" size={20} color="blue" /> */}
+						<FontAwesome name="share" size={14} color="blue" />
 					</View>
 				</View>
-				<Image
-					source={{
-						uri:
-							data.thumbnail?.secure_url || 'https://via.placeholder.com/150',
-					}}
-					style={styles.image}
-					alt="image1"
-				/>
+				<View style={styles.imageContainer}>
+					<Image
+						source={{
+							uri:
+								data.thumbnail?.secure_url || 'https://via.placeholder.com/150',
+						}}
+						style={styles.image}
+						alt="image1"
+					/>
+					<View style={styles.starBox}>
+						<FontAwesome
+							name="share"
+							size={14}
+							// color="blue"
+							style={styles.star}
+						/>
+					</View>
+				</View>
 				<View style={styles.flexBox}>
 					<AntDesign name="clockcircle" size={20} color="blue" />
 					<Text style={styles.captionTxt}> Updated: </Text>
