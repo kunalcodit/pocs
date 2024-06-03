@@ -15,6 +15,8 @@ import { ScaledSheet, vs } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { z } from 'zod';
 import AmLineChart from '../charts/AMLineChart';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import RecordSkeleton from '@/components/RecordSkeleton';
 
 export const screenWidth = Dimensions.get('window').width;
 // export const chartConfig: AbstractChartConfig = {
@@ -66,7 +68,7 @@ export default function Category(props: Props) {
 		trendRes.isLoading ||
 		trendRes.isFetching
 	) {
-		return <ActivityIndicator color="black" />;
+		return <RecordSkeleton />;
 	}
 
 	if (clicksRes.isError || trendRes.isError) {

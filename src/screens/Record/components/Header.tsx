@@ -2,8 +2,38 @@ import { colors } from '@/theme/Colors';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const styles = ScaledSheet.create({
+	container: {
+		backgroundColor: 'white',
+		padding: '4%',
+	},
+	headerContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		// padding: '4%',
+		paddingVertical: '4%',
+	},
+	rowCenter: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	headerText: {
+		fontSize: 20,
+		fontWeight: 'medium',
+		marginLeft: 10,
+		color: 'black',
+	},
+	rightIcon: {
+		backgroundColor: colors.iconBackground,
+		padding: 8,
+		borderRadius: 50,
+		marginRight: 10,
+	},
+});
 
 export default function Header() {
 	const navigation = useNavigation();
@@ -32,31 +62,3 @@ export default function Header() {
 		</SafeAreaView>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		backgroundColor: 'white',
-		padding: '4%',
-	},
-	headerContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		padding: '4%',
-	},
-	rowCenter: {
-		flexDirection: 'row',
-		alignItems: 'center',
-	},
-	headerText: {
-		fontSize: 20,
-		fontWeight: 'medium',
-		marginLeft: 10,
-		color: 'black',
-	},
-	rightIcon: {
-		backgroundColor: colors.iconBackground,
-		padding: 8,
-		borderRadius: 50,
-		marginRight: 10,
-	},
-});

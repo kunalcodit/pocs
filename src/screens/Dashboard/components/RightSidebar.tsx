@@ -1,6 +1,8 @@
-import { View, Text, Pressable, Image } from 'react-native';
+import { View, Text, Pressable, Image, ActivityIndicator } from 'react-native';
 import React from 'react';
 import { ScaledSheet } from 'react-native-size-matters';
+import { useQuery } from '@tanstack/react-query';
+import fetchUser from '@/services/auth/fetchUser';
 
 type SidebarProps = {
 	onPress: () => void;
@@ -45,23 +47,39 @@ const styles = ScaledSheet.create({
 
 export default function RightSidebar(props: SidebarProps) {
 	const { onPress } = props;
+
+	const { isLoading, isFetching, data } = useQuery({
+		queryKey: ['user'],
+		queryFn: fetchUser,
+	});
+
 	return (
 		<Pressable style={styles.rightContainer} onPress={onPress}>
 			<Pressable style={styles.containerBox}>
-				<View style={styles.profileContainer}>
-					<Image
-						source={{
-							uri: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-						}}
-						style={styles.image}
-					/>
-					<Text>Tap reports</Text>
-					<Text>demo2023@tapclicks.com</Text>
-				</View>
-				<Text style={styles.text}>About</Text>
-				<Text style={styles.text}>Support</Text>
-				<Text style={styles.text}>Privacy</Text>
-				<Text style={styles.text}>Sign Out</Text>
+				{isLoading || isFetching ? (
+					<ActivityIndicator color="black" />
+				) : (
+					<>
+						<View style={styles.profileContainer}>
+							<Image
+								source={{
+									uri:
+										data.data?.settings.userImageMetadata.secure_url ||
+										'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+								}}
+								style={styles.image}
+							/>
+							<Text>
+								{data.data.settings.firstName} {data.data.settings.lastName}
+							</Text>
+							<Text>{data.data.settings.userEmail}</Text>
+						</View>
+						<Text style={styles.text}>About</Text>
+						<Text style={styles.text}>Support</Text>
+						<Text style={styles.text}>Privacy</Text>
+						<Text style={styles.text}>Sign Out</Text>
+					</>
+				)}
 			</Pressable>
 		</Pressable>
 	);

@@ -1,3 +1,4 @@
+import { colors } from '@/theme/Colors';
 import { AaDaumSchema } from '@/types/schemas/dashboard';
 import { Image, Pressable, Text, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -63,9 +64,11 @@ const styles = ScaledSheet.create({
 		position: 'absolute',
 		top: '15@ms',
 		right: '15@ms',
-		backgroundColor: 'black',
-		padding: '10@ms',
+		backgroundColor: 'white',
+		padding: '6@ms',
 		borderRadius: '80@ms',
+		borderColor: 'lightgray',
+		borderWidth: 1,
 	},
 	star: {
 		// position: 'absolute',
@@ -74,8 +77,8 @@ const styles = ScaledSheet.create({
 		// backgroundColor: 'black',
 		// padding: '10@ms',
 		// borderRadius: '80@ms',
-		color: 'white',
-		borderWidth: 1,
+		color: colors.darkGray,
+		// borderWidth: 1,
 	},
 });
 
@@ -101,8 +104,8 @@ export default function Card({ onPress, data }: CardProps) {
 					/>
 					<View style={styles.starBox}>
 						<FontAwesome
-							name="share"
-							size={14}
+							name="star-o"
+							size={18}
 							// color="blue"
 							style={styles.star}
 						/>

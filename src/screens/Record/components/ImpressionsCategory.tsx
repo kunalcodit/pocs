@@ -16,6 +16,7 @@ import getClicks from '@/services/record/getClicks';
 import AmLineChart from '../charts/AMLineChart';
 import AmPieChart from '../charts/AmPieChart';
 import AmMapChart from '../charts/AmMapChart';
+import RecordSkeleton from '@/components/RecordSkeleton';
 
 const styles = ScaledSheet.create({
 	container: {
@@ -125,7 +126,7 @@ export default function Category(props: Props) {
 		shareRes.isLoading ||
 		shareRes.isFetching
 	) {
-		return <ActivityIndicator color="black" />;
+		return <RecordSkeleton />;
 	}
 
 	if (

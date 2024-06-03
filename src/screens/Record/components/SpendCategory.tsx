@@ -14,6 +14,7 @@ import { ScaledSheet, vs } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { z } from 'zod';
 import AmLineChart from '../charts/AMLineChart';
+import RecordSkeleton from '@/components/RecordSkeleton';
 
 type Props = {
 	data: z.infer<typeof RecordPageSchema>;
@@ -43,7 +44,7 @@ export default function Category(props: Props) {
 		trendRes.isLoading ||
 		trendRes.isFetching
 	) {
-		return <ActivityIndicator color="black" />;
+		return <RecordSkeleton />;
 	}
 
 	if (clicksRes.isError || trendRes.isError) {

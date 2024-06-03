@@ -28,7 +28,7 @@ const styles = ScaledSheet.create({
 	},
 	headerText: {
 		fontSize: 20,
-		fontWeight: 'medium',
+		fontWeight: 'bold',
 		marginLeft: 10,
 		color: 'black',
 	},

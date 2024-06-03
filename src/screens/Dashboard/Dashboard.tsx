@@ -11,6 +11,7 @@ import List from './components/List';
 import RightSidebar from './components/RightSidebar';
 import Tabs from './components/Tabs';
 import { colors } from '@/theme/Colors';
+import fetchUser from '@/services/auth/fetchUser';
 
 const styles = ScaledSheet.create({
 	container: {
@@ -59,8 +60,6 @@ export default function Dashboard({ navigation }: DashProps) {
 		keepPreviousData: true,
 	});
 
-	console.log(data?.data);
-
 	const loadMoreData = () => {
 		if (page < (data?.data.iTotalDisplayRecords ?? 0)) {
 			setPage(prevPage => prevPage + 10);
@@ -86,7 +85,7 @@ export default function Dashboard({ navigation }: DashProps) {
 				handleCurrentPage={setcurrentPage}
 			/>
 			{showRightBox && <RightSidebar onPress={() => setshowRightBox(false)} />}
-			{isLoading || (isRefetching && <ActivityIndicator color="black" />)}
+			{isLoading || isRefetching ? <ActivityIndicator color="black" /> : null}
 			<FlatList
 				data={data?.data?.aaData ?? []}
 				ListEmptyComponent={ListEmptyComponent}

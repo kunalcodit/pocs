@@ -56,7 +56,6 @@ const styles = ScaledSheet.create({
 		height: 55,
 	},
 	loginButton: {
-		// margin: 6,
 		marginTop: 4,
 	},
 	loginButtonText: {

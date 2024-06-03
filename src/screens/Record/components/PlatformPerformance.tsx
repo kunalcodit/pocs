@@ -14,6 +14,7 @@ import { ScaledSheet } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { z } from 'zod';
 import PerformanceTable from '../charts/PerformanceTable';
+import RecordSkeleton from '@/components/RecordSkeleton';
 
 const styles = ScaledSheet.create({
 	container: {
@@ -95,10 +96,8 @@ export default function PlatformPerformance(props: Props) {
 	});
 
 	if (isLoading || isFetching) {
-		return <ActivityIndicator color="black" />;
+		return <RecordSkeleton />;
 	}
-
-	console.log({ tableData });
 
 	if (isError) {
 		return null;
