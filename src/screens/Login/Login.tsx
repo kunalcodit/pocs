@@ -85,12 +85,9 @@ const styles = ScaledSheet.create({
 });
 
 export default function Login({ navigation }: LoginProps) {
-	// const [url, seturl] = useState('');
-	// const [email, setemail] = useState('');
-	// const [password, setpassword] = useState('');
-	const [url, seturl] = useState('demo2019.tapclicks.com');
-	const [email, setemail] = useState('erica.lundin@tapclicks.com');
-	const [password, setpassword] = useState('tapclicks99');
+	const [url, seturl] = useState('');
+	const [email, setemail] = useState('');
+	const [password, setpassword] = useState('');
 
 	const [showPassword, setshowPassword] = useState(false);
 	const { mutate, isPending } = useMutation({
@@ -128,7 +125,7 @@ export default function Login({ navigation }: LoginProps) {
 		storage.set('HOST', url.toLowerCase().trim());
 		const requestBody = {
 			email: email.toLowerCase(),
-			password: password.toLowerCase(),
+			password,
 			recaptcha: '',
 			hipaa_acknowledgement: 'no',
 			url,
