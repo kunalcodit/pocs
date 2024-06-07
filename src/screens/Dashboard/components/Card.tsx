@@ -80,9 +80,18 @@ const styles = ScaledSheet.create({
 		color: colors.darkGray,
 		// borderWidth: 1,
 	},
+	pipeSign: {
+		color: colors.darkGray,
+	},
 });
 
 export default function Card({ onPress, data }: CardProps) {
+	const parts = data.formatted_updated_at
+		? data.formatted_updated_at.split(' ')
+		: [];
+	const date = `${parts[0]} ${parts[1]} ${parts[2]}`;
+	const time = `${parts[3]} ${parts[4]}`;
+
 	return (
 		<Pressable onPress={onPress} style={styles.container}>
 			<View style={styles.tabContainer}>
@@ -112,9 +121,13 @@ export default function Card({ onPress, data }: CardProps) {
 					</View>
 				</View>
 				<View style={styles.flexBox}>
-					<AntDesign name="clockcircle" size={20} color="blue" />
+					<AntDesign name="clockcircle" size={14} color="blue" />
 					<Text style={styles.captionTxt}> Updated: </Text>
-					<Text style={styles.captions}>{data.formatted_updated_at}</Text>
+					<Text style={styles.captions}>
+						{date}
+						<Text style={styles.pipeSign}> | </Text>
+						{time}
+					</Text>
 				</View>
 			</View>
 		</Pressable>

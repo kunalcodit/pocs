@@ -1,3 +1,4 @@
+import { storage } from '@/App';
 import Brand from '@/components/Brand';
 import TOButton from '@/components/TOButton';
 import TOInput from '@/components/TOInput';
@@ -84,8 +85,12 @@ const styles = ScaledSheet.create({
 });
 
 export default function Login({ navigation }: LoginProps) {
-	const [email, setemail] = useState('');
-	const [password, setpassword] = useState('');
+	// const [url, seturl] = useState('');
+	// const [email, setemail] = useState('');
+	// const [password, setpassword] = useState('');
+	const [url, seturl] = useState('demo2019.tapclicks.com');
+	const [email, setemail] = useState('erica.lundin@tapclicks.com');
+	const [password, setpassword] = useState('tapclicks99');
 
 	const [showPassword, setshowPassword] = useState(false);
 	const { mutate, isPending } = useMutation({
@@ -97,19 +102,38 @@ export default function Login({ navigation }: LoginProps) {
 					type: 'danger',
 				});
 			} else {
+				setemail('');
+				setpassword('');
+				seturl('');
 				navigation.navigate('Main');
+			}
+		},
+		onError: error => {
+			if (error.message === 'Request failed with status code 404') {
+				showMessage({
+					message: 'URL not found',
+					type: 'danger',
+				});
 			}
 		},
 	});
 
 	const handleLogin = () => {
+		if (!url) {
+			return showMessage({
+				message: 'URL is required',
+				type: 'danger',
+			});
+		}
+		storage.set('HOST', url.toLowerCase().trim());
 		const requestBody = {
-			email,
-			password,
+			email: email.toLowerCase(),
+			password: password.toLowerCase(),
 			recaptcha: '',
 			hipaa_acknowledgement: 'no',
+			url,
 		};
-		mutate(requestBody);
+		return mutate(requestBody);
 	};
 
 	return (
@@ -161,17 +185,21 @@ export default function Login({ navigation }: LoginProps) {
 						<TOInput
 							placeholder={constants.placeholder.TAPCLICKS_URL}
 							returnKeyType="next"
+							onChangeText={seturl}
+							value={url}
 						/>
 						<TOInput
 							placeholder={constants.placeholder.BUSINESS_EMAIL}
 							returnKeyType="next"
 							onChangeText={setemail}
+							value={email}
 						/>
 						<TOInput
 							secureTextEntry={!showPassword}
 							placeholder={constants.placeholder.PASSWORD}
 							returnKeyType="done"
 							onChangeText={setpassword}
+							value={password}
 							rightIcon={{
 								icon: (
 									<Ionicons

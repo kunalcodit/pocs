@@ -208,7 +208,7 @@ export default function Category(props: Props) {
 								style={[styles.image, styles.stateImage]}
 							/> */}
 							<View style={{ height: vs(100) }}>
-								<AmMapChart data={stateRes.data.data} />
+								<AmMapChart data={stateRes.data?.data} />
 							</View>
 						</View>
 					</View>

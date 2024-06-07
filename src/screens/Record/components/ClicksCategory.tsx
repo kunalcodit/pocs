@@ -125,6 +125,7 @@ const styles = ScaledSheet.create({
 	container: {
 		backgroundColor: '#eff6ff',
 		padding: '2%',
+		marginTop: '10@vs',
 	},
 	textBox: {
 		alignItems: 'center',

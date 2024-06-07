@@ -33,17 +33,17 @@ const InputElement: React.FC<InputElementProps> = ({
 	onChangeText,
 }) => {
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<View style={styles.container}>
-				<View style={styles.searchIcon}>
-					<Ionicons name="search" size={20} style={styles.searchIconElement} />
-					<TextInput
-						placeholder="Search records ..."
-						placeholderTextColor="gray"
-						style={styles.input}
-						onChangeText={onChangeText}
-					/>
-				</View>
+		<View style={styles.container}>
+			<View style={styles.searchIcon}>
+				<Ionicons name="search" size={20} style={styles.searchIconElement} />
+				<TextInput
+					placeholder="Search records ..."
+					placeholderTextColor="gray"
+					style={styles.input}
+					onChangeText={onChangeText}
+				/>
+			</View>
+			{leftIconName !== '' && (
 				<TouchableOpacity style={styles.icon} onPress={onLeftIconPress}>
 					{React.createElement(leftIconLib, {
 						name: leftIconName,
@@ -51,6 +51,8 @@ const InputElement: React.FC<InputElementProps> = ({
 						color: 'blue',
 					})}
 				</TouchableOpacity>
+			)}
+			{rightIconName !== '' && (
 				<TouchableOpacity style={styles.icon} onPress={onRightIconPress}>
 					{React.createElement(rightIconLib, {
 						name: rightIconName,
@@ -58,8 +60,8 @@ const InputElement: React.FC<InputElementProps> = ({
 						color: 'blue',
 					})}
 				</TouchableOpacity>
-			</View>
-		</TouchableWithoutFeedback>
+			)}
+		</View>
 	);
 };
 
@@ -69,10 +71,10 @@ const styles = ScaledSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		// borderWidth: 1,
+		paddingBottom: 0,
 	},
-	input: {
-		fontSize: '16@s',
-	},
+
 	icon: {
 		backgroundColor: 'white',
 		padding: 10,
@@ -83,7 +85,7 @@ const styles = ScaledSheet.create({
 		backgroundColor: 'white',
 		flexDirection: 'row',
 		alignItems: 'center',
-		padding: Platform.OS === 'android' ? 0 : '4%',
+		padding: Platform.OS === 'android' ? 0 : 10,
 		fontSize: '16@s',
 		borderRadius: '8@s',
 		flex: 1,
@@ -91,6 +93,12 @@ const styles = ScaledSheet.create({
 	},
 	searchIconElement: {
 		marginHorizontal: '4@s',
+	},
+	input: {
+		fontSize: '16@s',
+		flex: 1,
+		// padding: 6,
+		padding: Platform.OS === 'ios' ? 0 : 6,
 	},
 });
 

@@ -1,12 +1,15 @@
+import { colors } from '@/theme/Colors';
 import { DashboardData } from '@/types/dashboard/dashboard';
+import { AaDaumSchema } from '@/types/schemas/dashboard';
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { z } from 'zod';
 
 type ListProps = {
 	onPress: () => void;
-	data: DashboardData;
+	data: z.infer<typeof AaDaumSchema>;
 };
 
 const styles = ScaledSheet.create({
@@ -64,15 +67,28 @@ const styles = ScaledSheet.create({
 	captionTxt: {
 		color: 'black',
 	},
+	pipeSign: {
+		color: colors.darkGray,
+	},
 });
 
 export default function List({ data, onPress }: ListProps) {
+	const parts = data.formatted_updated_at
+		? data.formatted_updated_at.split(' ')
+		: [];
+	const date = `${parts[0]} ${parts[1]} ${parts[2]}`;
+	const time = `${parts[3]} ${parts[4]}`;
+
 	return (
 		<Pressable onPress={onPress} style={styles.container}>
 			<View style={styles.tabContainer}>
 				<View style={styles.flexBox}>
 					<Text style={styles.captionTxt}> Updated: </Text>
-					<Text style={styles.captions}>{data.formatted_updated_at}</Text>
+					<Text style={styles.captions}>
+						{date}
+						<Text style={styles.pipeSign}> | </Text>
+						{time}
+					</Text>
 				</View>
 				<View style={styles.header}>
 					<Text style={styles.headertext}>{data.title}</Text>

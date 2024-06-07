@@ -14,8 +14,8 @@ export default function Application() {
 			}}
 		>
 			{/* <Stack.Screen name="WebVIew" component={WebVIew} /> */}
-			<Stack.Screen name="Main" component={Tab} />
 			<Stack.Screen name="Login" component={Login} />
+			<Stack.Screen name="Main" component={Tab} />
 			<Stack.Screen name="Record" component={Record} />
 		</Stack.Navigator>
 	);

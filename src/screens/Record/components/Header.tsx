@@ -1,7 +1,6 @@
 import { colors } from '@/theme/Colors';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, SafeAreaView, Text, View } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,13 +8,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const styles = ScaledSheet.create({
 	container: {
 		backgroundColor: 'white',
-		padding: '4%',
+		// padding: '4%',
 	},
 	headerContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		// padding: '4%',
 		paddingVertical: '4%',
+		// paddingVertical: Platform.OS === 'ios' ? '2%' : 0,
 	},
 	rowCenter: {
 		flexDirection: 'row',
@@ -23,7 +23,7 @@ const styles = ScaledSheet.create({
 	},
 	headerText: {
 		fontSize: 20,
-		fontWeight: 'medium',
+		fontWeight: 'bold',
 		marginLeft: 10,
 		color: 'black',
 	},
@@ -40,7 +40,7 @@ export default function Header() {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.headerContainer}>
-				<Pressable onPress={() => navigation.navigate('Dashboard')}>
+				<Pressable onPress={() => navigation.goBack()}>
 					<View style={styles.rowCenter}>
 						<Ionicons name="chevron-back" size={30} color="black" />
 						<Text style={styles.headerText}>Records</Text>

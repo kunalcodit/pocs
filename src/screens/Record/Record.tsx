@@ -47,10 +47,12 @@ export default function Record({ route }: RecordProps) {
 					</View>
 					<ScrollView style={styles.container}>
 						<InputElement
-							leftIconLib={Ionicons}
-							leftIconName="calendar-outline"
-							rightIconLib={MaterialIcons}
-							rightIconName="keyboard-double-arrow-down"
+							// leftIconLib={Ionicons}
+							// leftIconName="calendar-outline"
+							// rightIconLib={MaterialIcons}
+							// rightIconName="keyboard-double-arrow-down"
+							leftIconName=""
+							rightIconName=""
 						/>
 						<ClicksCategory
 							data={data.data.page as RecordPage}

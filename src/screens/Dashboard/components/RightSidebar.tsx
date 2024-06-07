@@ -1,8 +1,23 @@
-import { View, Text, Pressable, Image, ActivityIndicator } from 'react-native';
-import React from 'react';
-import { ScaledSheet } from 'react-native-size-matters';
-import { useQuery } from '@tanstack/react-query';
+import { storage } from '@/App';
 import fetchUser from '@/services/auth/fetchUser';
+import CookieManager from '@react-native-cookies/cookies';
+import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+import {
+	ActivityIndicator,
+	Alert,
+	Image,
+	Linking,
+	Pressable,
+	Text,
+	View,
+} from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
+import { useNavigation } from '@react-navigation/native';
+import DeviceInfo from 'react-native-device-info';
+import TOSubText from '@/components/ToSubText';
+import { constants } from '@/utils/constants';
+import { colors } from '@/theme/Colors';
 
 type SidebarProps = {
 	onPress: () => void;
@@ -43,15 +58,45 @@ const styles = ScaledSheet.create({
 	text: {
 		padding: '8%',
 	},
+	versionContainer: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		width: '100%',
+		textAlign: 'center',
+	},
+	subBox: {
+		alignItems: 'center',
+		marginBottom: 16,
+		flexDirection: 'row',
+		justifyContent: 'center',
+	},
 });
 
+const externalLinks = {
+	about: 'https://www.tapclicks.com/about-us/',
+	support: 'https://support.tapclicks.com/hc/en-us',
+	privacy: 'https://www.tapclicks.com/privacy-policy/',
+};
+
 export default function RightSidebar(props: SidebarProps) {
+	const navigation = useNavigation();
 	const { onPress } = props;
 
 	const { isLoading, isFetching, data } = useQuery({
 		queryKey: ['user'],
 		queryFn: fetchUser,
 	});
+
+	const openLink = async (url: string) => {
+		await Linking.openURL(url);
+	};
+
+	const logoutHandler = async () => {
+		storage.clearAll();
+		await CookieManager.clearAll().catch(() => {});
+		navigation.navigate('Login');
+	};
 
 	return (
 		<Pressable style={styles.rightContainer} onPress={onPress}>
@@ -74,10 +119,36 @@ export default function RightSidebar(props: SidebarProps) {
 							</Text>
 							<Text>{data.data.settings.userEmail}</Text>
 						</View>
-						<Text style={styles.text}>About</Text>
-						<Text style={styles.text}>Support</Text>
-						<Text style={styles.text}>Privacy</Text>
-						<Text style={styles.text}>Sign Out</Text>
+						<Text
+							style={styles.text}
+							onPress={() => openLink(externalLinks.about)}
+						>
+							About
+						</Text>
+						<Text
+							style={styles.text}
+							onPress={() => openLink(externalLinks.support)}
+						>
+							Support
+						</Text>
+						<Text
+							style={styles.text}
+							onPress={() => openLink(externalLinks.privacy)}
+						>
+							Privacy
+						</Text>
+						<Text style={styles.text} onPress={logoutHandler}>
+							Sign Out
+						</Text>
+						<View style={styles.versionContainer}>
+							<View style={styles.subBox}>
+								<TOSubText style={{ color: colors.text }}>
+									{`${
+										constants.strings.TAPCLICKS_VERSION
+									}${DeviceInfo.getVersion()} - ${DeviceInfo.getBuildNumber()}`}
+								</TOSubText>
+							</View>
+						</View>
 					</>
 				)}
 			</Pressable>

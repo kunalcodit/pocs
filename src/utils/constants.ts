@@ -90,7 +90,7 @@ const strings = {
 	TASK_OVERDUE: 'Task is Overdue',
 	TASKS_OVERDUE: 'Tasks Overdue',
 	PLEASE_ENTER: 'Please enter',
-	TAPCLICKS_VERSION: 'TapClicks v',
+	TAPCLICKS_VERSION: 'TapReports v',
 	CREATIVE_NAME: 'Creative Name',
 	LINE_ITEM_NAME: 'Line Item Name',
 	NEW_ACCOUNT: 'New Account',

@@ -3,9 +3,17 @@ import { colors } from '@/theme/Colors';
 import { navigationRef } from '@/types/navigation';
 import { DrawerActions } from '@react-navigation/native';
 
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import {
+	Image,
+	Platform,
+	SafeAreaView,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import BellIcon from '@/assets/images/BellRinging.png';
 
 type HeaderProps = {
 	handleRightSidebar: (value: boolean) => void;
@@ -20,7 +28,7 @@ const styles = ScaledSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		// padding: '4%',
-		paddingVertical: '2%',
+		paddingVertical: Platform.OS === 'ios' ? '2%' : 0,
 	},
 	rowCenter: {
 		flexDirection: 'row',
@@ -57,11 +65,12 @@ export default function Header({ handleRightSidebar }: HeaderProps) {
 				</View>
 				<View style={styles.rowCenter}>
 					<View style={styles.rightIcon}>
-						<Ionicons
+						{/* <Ionicons
 							name="notifications-outline"
 							size={24}
 							color={colors.orange}
-						/>
+						/> */}
+						<Image source={BellIcon} alt="BellRinging" />
 					</View>
 					<TouchableOpacity
 						style={styles.rightIcon}

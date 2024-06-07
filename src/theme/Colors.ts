@@ -26,4 +26,7 @@ export const colors = {
 	quartz: '#4B4B4B',
 	cultured: '#F7F7F7',
 	placeholder: '#6F6F6F',
+	drawerBackground: '#F6F3FF',
+	drawerPrimary: '#633CD3',
+	drawerText: '#696969',
 };

@@ -30,6 +30,7 @@ const styles = ScaledSheet.create({
 		textAlign: 'center',
 		margin: '2%',
 		color: 'black',
+		fontWeight: '600',
 	},
 	inactiveTab: {
 		flex: 1,
@@ -42,6 +43,7 @@ const styles = ScaledSheet.create({
 		borderWidth: 1,
 		borderColor: 'lightgray',
 		color: 'black',
+		fontWeight: '500',
 	},
 });
 
