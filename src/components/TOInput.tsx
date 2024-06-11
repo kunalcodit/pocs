@@ -23,11 +23,11 @@ const styles = ScaledSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderWidth: 1,
-		borderColor: colors.quartz,
-		borderRadius: '5@s',
+		borderColor: colors.borderDark,
+		borderRadius: '12@s',
 		paddingHorizontal: '10@s',
-		height: '40@s',
-		marginTop: '2%',
+		height: '48@s',
+		marginVertical: '2%',
 	},
 	iconContainer: {
 		padding: '5@s',
@@ -37,6 +37,7 @@ const styles = ScaledSheet.create({
 		fontSize: '14@s',
 		paddingHorizontal: '5@s',
 		color: colors.text,
+		fontFamily: 'Mulish-Regular',
 	},
 });
 

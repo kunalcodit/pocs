@@ -54,11 +54,12 @@ function TOButton({
 
 const styles = ScaledSheet.create({
 	roundedButton: {
-		borderRadius: '25@s',
+		borderRadius: '12@s',
 		paddingVertical: '10@s',
 		paddingHorizontal: '20@s',
 		justifyContent: 'center',
 		alignItems: 'center',
+		height: '48@s',
 	},
 	squareButton: {
 		borderRadius: '5@s',
@@ -70,6 +71,7 @@ const styles = ScaledSheet.create({
 	buttonText: {
 		fontSize: '14@s',
 		textAlign: 'center',
+		fontFamily: 'Mulish-Regular',
 	},
 });
 

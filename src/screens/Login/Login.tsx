@@ -1,4 +1,5 @@
 import { storage } from '@/App';
+import { UserIcon } from '@/components';
 import Brand from '@/components/Brand';
 import TOButton from '@/components/TOButton';
 import TOInput from '@/components/TOInput';
@@ -20,7 +21,6 @@ import {
 } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { ScaledSheet } from 'react-native-size-matters';
-import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const styles = ScaledSheet.create({
@@ -44,7 +44,7 @@ const styles = ScaledSheet.create({
 		letterSpacing: -0.25,
 	},
 	loginTextContainer: {
-		marginBottom: 40,
+		marginBottom: 20,
 	},
 	userLogoContainer: {
 		flexDirection: 'row',
@@ -79,8 +79,6 @@ const styles = ScaledSheet.create({
 	},
 	txtStyle: {
 		color: colors.textLight,
-		fontFamily: constants.font.BOLD,
-		letterSpacing: -0.25,
 	},
 });
 
@@ -163,7 +161,7 @@ export default function Login({ navigation }: LoginProps) {
 						Platform.OS === constants.strings.IOS ? 140 : 0
 					}
 				>
-					<Text style={styles.heading}>Welcome</Text>
+					<Text style={styles.heading}>Welcome!</Text>
 					<View style={layout.rowCenter}>
 						<Brand width={120} height={120} />
 					</View>
@@ -172,10 +170,12 @@ export default function Login({ navigation }: LoginProps) {
 							<TOText style={styles.title}>
 								{constants.strings.ACCOUNT_LOGIN}
 							</TOText>
-							<Feather name="user" size={20} color="black" />
+							<UserIcon />
 						</View>
 						<View style={styles.contentSpacing}>
-							<TOText>{constants.strings.WELCOME_TO_TAPORDERS}</TOText>
+							<TOText style={{ fontFamily: constants.font.REGULAR }}>
+								{constants.strings.WELCOME_TO_TAPORDERS}
+							</TOText>
 						</View>
 					</View>
 					<View>
@@ -210,10 +210,8 @@ export default function Login({ navigation }: LoginProps) {
 						/>
 						<TOButton
 							title={constants.strings.LOGIN}
-							buttonType="square"
-							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+							buttonType="rounded"
 							buttonStyle={{ ...styles.loginButton, ...styles.btnStyle }}
-							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 							textStyle={{
 								...styles.loginButtonText,
 								...styles.txtStyle,

@@ -7,6 +7,7 @@ export const colors = {
 	backgroundDark: '#f6f6f6',
 	transparent: 'rgba(0,0,0,0)',
 	border: '#E8E8E8',
+	borderDark: '#818181',
 	text: '#000000',
 	textSecondary: '#CACACA',
 	textSecondaryDark: '#AEB0BC',
