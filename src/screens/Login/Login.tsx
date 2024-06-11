@@ -202,7 +202,7 @@ export default function Login({ navigation }: LoginProps) {
 									<Ionicons
 										name={!showPassword ? 'eye-off' : 'eye'}
 										size={20}
-										color="black"
+										color={colors.primaryBlue}
 									/>
 								),
 								onPress: () => setshowPassword(!showPassword),

@@ -3,6 +3,7 @@ export const colors = {
 	orange: '#fdba74',
 	gray: '#9ca3af',
 	blue: '#2563eb',
+	primaryBlue: '#0071E3',
 	background: '#ffffff',
 	backgroundDark: '#f6f6f6',
 	transparent: 'rgba(0,0,0,0)',
